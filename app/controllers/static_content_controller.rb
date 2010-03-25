@@ -12,7 +12,11 @@ class StaticContentController < Spree::BaseController
     end
 
     unless @page = Page.visible.find_by_slug(path)
-      render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
+      if path == '/'
+        redirect_to :controller => "products", :action => "index", :status=>:moved_permanently
+      else
+        render :file => "#{RAILS_ROOT}/public/404.html", :layout => false, :status => 404
+      end
     end
   end
 end
